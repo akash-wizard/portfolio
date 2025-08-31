@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Akash Matale — Portfolio</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: #000;
+      color: white;
+      overflow-x: hidden;
+    }
+    header, section, footer {
+      scroll-margin-top: 80px;
+    }
+    header {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(180deg, #000 0%, #111 100%), url('images/hero-bg.jpg') center/cover no-repeat;
+    }
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 1rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    p {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      color: #ddd;
+    }
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0,0,0,0.8);
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: white;
+      margin-left: 15px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      font-size: 0.95rem;
+    }
+    nav a:hover {
+      color: #00c6ff;
+    }
+    .cta-buttons a {
+      display: inline-block;
+      margin: 10px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 9999px;
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      color: white;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+    .cta-buttons a:hover {
+      opacity: 0.85;
+    }
+    section {
+      padding: 80px 20px;
+      text-align: center;
+    }
+    h2 {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      margin-bottom: 1rem;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      font-size: 1.1rem;
+    }
+    ul li {
+      margin-bottom: 0.5rem;
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .project-card {
+      background: #111 center/cover no-repeat;
+      border-radius: 16px;
+      padding: 30px;
+      text-align: left;
+      transition: transform 0.4s, box-shadow 0.4s;
+      position: relative;
+      overflow: hidden;
+      min-height: 250px;
+    }
+    .project-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      border-radius: 16px;
+    }
+    .project-card * {
+      position: relative;
+      z-index: 2;
+    }
+    .project-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    }
+    .project-card h3 {
+      margin-top: 0;
+      font-size: 1.5rem;
+    }
+    .project-card p {
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      color: #eee;
+    }
+    .project-card a {
+      color: #00c6ff;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    footer {
+      background: #111;
+      padding: 40px 20px;
+      font-size: 0.9rem;
+      text-align: center;
+      color: #888;
+    }
+    footer a {
+      color: #00c6ff;
+      text-decoration: none;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    /* Case Study Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      padding: 20px;
+    }
+    .modal-content {
+      background: #111;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 95%;
+      width: 900px;
+      text-align: left;
+      color: white;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .modal-content h3 { margin-top: 0; }
+    .close-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.8rem;
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      cursor: pointer;
+    }
+    .gallery {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      margin-top: 15px;
+    }
+    .gallery img {
+      max-height: 180px;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      nav a {
+        margin: 8px 0;
+      }
+      .project-card {
+        min-height: 200px;
+      }
+      .gallery img {
+        max-height: 120px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div><b>Akash Matale</b></div>
+    <div>
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+      <a href="AkashBalkrishnaMataleResume.pdf" target="_blank">Resume</a>
+    </div>
+  </nav>
+
+  <header>
+    <h1>Akash Matale</h1>
+    <p>Full‑Stack Web Developer with 5+ years of experience building scalable applications at Veefin, OneG8, and XANAX Tech. Skilled in Laravel, React, Vue, Node.js, and Web3.</p>
+    <div class="cta-buttons">
+      <a href="#projects">View Projects</a>
+      <a href="AkashBalkrishnaMataleResume.pdf" target="_blank">Download Resume</a>
+      <a href="#contact">Contact Me</a>
+    </div>
+  </header>
+
+  <section id="about">
+    <h2>About Me</h2>
+    <p>I’m Akash Matale, a full‑stack developer experienced in designing and building secure, high‑performance web apps. I’ve delivered fintech platforms, POS systems, Web3 wallets, and enterprise dashboards with a focus on clean architecture and scalable solutions.</p>
+  </section>
+
+  <section id="skills">
+    <h2>Skills</h2>
+    <ul>
+      <li><b>Frontend:</b> Vue.js, React, Next.js, HTML5, CSS3, Bootstrap</li>
+      <li><b>Backend:</b> Laravel, Node.js, Express.js, PHP</li>
+      <li><b>Databases:</b> MySQL, PostgreSQL, Redis</li>
+      <li><b>DevOps:</b> Docker, AWS EC2, CI/CD, Git</li>
+      <li><b>Web3:</b> Solidity, Smart Contracts, Crypto Wallets</li>
+      <li><b>Other:</b> Microservices, API Integration, Encryption (AES‑256)</li>
+    </ul>
+  </section>
+
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card" style="background-image:url('images/lms.jpg');">
+        <h3>Loan Management System (LMS)</h3>
+        <p>Built for clients like JIO & LULU, streamlining loan lifecycle with modular loan schemes, batch monitoring, and automated workflows.</p>
+        <a onclick="openModal('LMS')">Read Case Study →</a>
+      </div>
+      <div class="project-card" style="background-image:url('images/los.jpg');">
+        <h3>Loan Origination System (LOS)</h3>
+        <p>Enterprise-grade LOS for banks like IndusInd and UCO Bank. Includes KYC, document management, credit scoring, and scalable microservices.</p>
+        <a onclick="openModal('LOS')">Read Case Study →</a>
+      </div>
+      <div class="project-card" style="background-image:url('images/wallet.jpg');">
+        <h3>Digital Crypto Web3 Wallet</h3>
+        <p>Multi-chain wallet with QR transfers, mnemonic import/export, real‑time transaction tracking, and secure key management.</p>
+        <a onclick="openModal('Wallet')">Read Case Study →</a>
+      </div>
+      <div class="project-card" style="background-image:url('images/sirius.jpg');">
+        <h3>Sirius Sync</h3>
+        <p>Social media platform with integrated rewards and crypto wallet, supporting 50k+ daily requests at sub‑200ms latency.</p>
+        <a onclick="openModal('Sirius')">Read Case Study →</a>
+      </div>
+      <div class="project-card" style="background-image:url('images/atromg8.jpg');">
+        <h3>Atromg8 Eco‑system</h3>
+        <p>Blockchain-powered social + e‑commerce ecosystem with NFT marketplace, crowdfunding, messenger, and crypto wallet integration.</p>
+        <a onclick="openModal('Atromg8')">Read Case Study →</a>
+      </div>
+      <div class="project-card" style="background-image:url('images/tripload.jpg');">
+        <h3>Tripload Logistic</h3>
+        <p>Real-time logistics tracking platform with multi-role access, secure user management, and optimized backend queries.</p>
+        <a onclick="openModal('Tripload')">Read Case Study →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <p>📧 <a href="mailto:akashb.m786@gmail.com">akashb.m786@gmail.com</a> | 📍 Thane, Maharashtra</p>
+    <p>© 2025 Akash Matale</p>
+  </footer>
+
+  <!-- Modal -->
+  <div id="caseStudyModal" class="modal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()">&times;</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    const caseStudies = {
+      LMS: `<h3>Loan Management System (LMS)</h3><p>This project streamlined loan management for enterprises like JIO and LULU. It included modular loan schemes, automated workflows, and real-time monitoring dashboards. <br><br><b>Responsibilities:</b> Backend APIs, database schema design, frontend integrations.<br><b>Outcome:</b> Reduced loan processing time by 35%.</p>
+            <div class='gallery'>
+              <img src='images/lms-1.jpg' alt='LMS screenshot 1'>
+              <img src='images/lms-2.jpg' alt='LMS screenshot 2'>
+              <img src='images/lms-3.jpg' alt='LMS screenshot 3'>
+            </div>` ,
+      LOS: `<h3>Loan Origination System (LOS)</h3><p>An enterprise-grade LOS for IndusInd & UCO Bank. Integrated KYC, document verification, and scoring engines to automate manual onboarding workflows. <br><br><b>Responsibilities:</b> API architecture, KYC flow, document services.<br><b>Outcome:</b> Manual work reduced by 60%.</p>
+            <div class='gallery'>
+              <img src='images/los-1.jpg' alt='LOS screenshot 1'>
+              <img src='images/los-2.jpg' alt='LOS screenshot 2'>
+              <img src='images/los-3.jpg' alt='LOS screenshot 3'>
+            </div>` ,
+      Wallet: `<h3>Digital Crypto Web3 Wallet</h3><p>A secure multi-chain wallet supporting Ethereum, BSC, and Polygon with QR transfers, mnemonic backup, and transaction tracking. <br><br><b>Responsibilities:</b> Smart contract integration, wallet UI flows, secure key handling.<br><b>Outcome:</b> Improved transaction success rates by 20%.</p>
+              <div class='gallery'>
+                <img src='images/wallet-1.jpg' alt='Wallet screenshot 1'>
+                <img src='images/wallet-2.jpg' alt='Wallet screenshot 2'>
+                <img src='images/wallet-3.jpg' alt='Wallet screenshot 3'>
+              </div>` ,
+      Sirius: `<h3>Sirius Sync</h3><p>A social media platform with crypto wallet integration handling 50k+ daily requests under 200ms latency. <br><br><b>Responsibilities:</b> Backend API design, caching, and load balancing.<br><b>Outcome:</b> Optimized performance reduced API latency by 30%.</p>
+              <div class='gallery'>
+                <img src='images/sirius-1.jpg' alt='Sirius screenshot 1'>
+                <img src='images/sirius-2.jpg' alt='Sirius screenshot 2'>
+              </div>` ,
+      Atromg8: `<h3>Atromg8 Ecosystem</h3><p>Blockchain-powered e-commerce + social ecosystem including NFT marketplace, crowdfunding, and crypto wallet. <br><br><b>Responsibilities:</b> Smart contract development, platform APIs, wallet integration.<br><b>Outcome:</b> Increased user engagement by 25%.</p>
+                <div class='gallery'>
+                  <img src='images/atromg8-1.jpg' alt='Atromg8 screenshot 1'>
+                  <img src='images/atromg8-2.jpg' alt='Atromg8 screenshot 2'>
+                </div>` ,
+      Tripload: `<h3>Tripload Logistic</h3><p>A real-time logistics tracking platform with secure user management and multi-role dashboards. <br><br><b>Responsibilities:</b> Database optimization, secure APIs, admin panel.<br><b>Outcome:</b> Improved API performance by 30%.</p>
+                <div class='gallery'>
+                  <img src='images/tripload-1.jpg' alt='Tripload screenshot 1'>
+                  <img src='images/tripload-2.jpg' alt='Tripload screenshot 2'>
+                </div>`
+    };
+
+    function openModal(project) {
+      document.getElementById('modalBody').innerHTML = caseStudies[project];
+      document.getElementById('caseStudyModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('caseStudyModal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
